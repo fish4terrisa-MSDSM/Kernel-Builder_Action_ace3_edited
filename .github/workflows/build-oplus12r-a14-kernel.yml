@@ -1,4 +1,4 @@
-name: Build OnePlus 12R A14 Kernel
+name: Build OnePlus 12R A14 KSU Kernel
 on:
   workflow_dispatch:
 
@@ -28,7 +28,7 @@ jobs:
         git clone https://github.com/OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_sm8550 -b oneplus/sm8550_u_14.0.0_oneplus_12r kernel_workspace --depth=1
         cd $GITHUB_WORKSPACE/kernel_workspace
         cd kernel_platform
-        git clone https://github.com/Klr1to/android_kernel_oneplus_sm8550diff -b lineage-21-KSU common --depth=1
+        git clone https://github.com/Klr1to/android_kernel_oneplus_sm8550diff -b lineage-21 common --depth=1
         wget https://github.com/Klr1to/Kernel-Builder_Action/raw/main/patches/aston_defconfig
         mv aston_defconfig common/arch/arm64/configs/gki_defconfig
         
@@ -38,6 +38,14 @@ jobs:
         mkdir clang-aosp
         wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master-kernel-build-2022/clang-r450784e.tar.gz
         tar -C clang-aosp/ -zxvf clang-r450784e.tar.gz
+
+    - name: Setup KernelSU
+      if: env.ENABLE_KERNELSU == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
+        KSU_VERSION=$(cd KernelSU && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
+        echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
 
     - name: Build kernel
       run: |
