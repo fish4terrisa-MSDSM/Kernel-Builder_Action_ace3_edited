@@ -28,7 +28,7 @@ jobs:
         git clone https://github.com/OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_sm8550 -b oneplus/sm8550_u_14.0.0_oneplus_12r kernel_workspace --depth=1
         cd $GITHUB_WORKSPACE/kernel_workspace
         cd kernel_platform
-        git clone https://github.com/Klr1to/android_kernel_oneplus_sm8550diff common --depth=1
+        git clone https://github.com/Klr1to/android_kernel_oneplus_sm8550diff -b lineage-21-KSU common --depth=1
         wget https://github.com/Klr1to/Kernel-Builder_Action/raw/main/patches/aston_defconfig
         mv aston_defconfig common/arch/arm64/configs/gki_defconfig
         
