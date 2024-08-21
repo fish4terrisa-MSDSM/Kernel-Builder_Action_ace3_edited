@@ -1,5 +1,5 @@
 **中文** | [English](README_EN.md)
-
+ITS NOT MINE all greetings to https://github.com/PoXiao777, im did this fork only for me, please dont use any artefacts from it.
 # KernelSU Action
 
 用于 Non-GKI Kernel 的 Action，具有一定的普遍性，需要了解内核及 Android 的相关知识得以运用。
