@@ -282,7 +282,12 @@ jobs:
       with:
         name: Image
         path: kernel_workspace/out/arch/arm64/boot/Image
-        
+
+    - name: Upload defconfig
+      uses: actions/upload-artifact@v4
+      with:
+        name: .config
+        path: kernel_workspace/out/.config
 
     - name: Upload AnyKernel3
       uses: actions/upload-artifact@v4
