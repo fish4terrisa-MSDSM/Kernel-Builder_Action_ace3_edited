@@ -109,6 +109,8 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone https://github.com/Kernel-SU/AnyKernel3 --depth=1 AnyKernel3
         cp out/arch/arm64/boot/Image AnyKernel3/
+        cd out/lib/modules
+        zip -r ../kmd.zip ./*
 
     - name: Upload Image
       uses: actions/upload-artifact@v4
@@ -120,7 +122,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Kmd-${{ env.BUILD_TIME }}
-        path: kernel_workspace/out/lib/modules/*
+        path: kernel_workspace/out/lib/kmd.zip
 
     - name: Upload AnyKernel3
       uses: actions/upload-artifact@v4
