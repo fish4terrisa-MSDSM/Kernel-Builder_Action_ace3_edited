@@ -96,21 +96,13 @@ jobs:
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}"
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}" INSTALL_MOD_PATH="." INSTALL_MOD_STRIP=1 modules_install
         
-        rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Pro+/build
-        rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Pro+/source
-    - name: Show files
-      run: |
-        find $GITHUB_WORKSPACE/kernel_workspace/out | grep img 
-        find $GITHUB_WORKSPACE/kernel_workspace/out | grep boot
-        find $GITHUB_WORKSPACE/kernel_workspace/out | grep Image
-        find $GITHUB_WORKSPACE/kernel_workspace/out
+        rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish+/build
+        rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish+/source
     - name: Make Anykernel3
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone https://github.com/Kernel-SU/AnyKernel3 --depth=1 AnyKernel3
         cp out/arch/arm64/boot/Image AnyKernel3/
-        cd out/lib/modules
-        zip -r ../kmd.zip ./*
 
     - name: Upload Image
       uses: actions/upload-artifact@v4
@@ -122,7 +114,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Kmd-${{ env.BUILD_TIME }}
-        path: kernel_workspace/out/lib/kmd.zip
+        path: kernel_workspace/out/lib/modules/*
 
     - name: Upload AnyKernel3
       uses: actions/upload-artifact@v4
