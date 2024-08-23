@@ -29,8 +29,8 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace
         cd kernel_platform
         git clone https://github.com/PoXiao777/android_kernel_oneplus_sm8550 common --depth=1
-        wget https://github.com/fish4terrisa-MSDSM/Kernel-Builder_Action_ace3_edited/raw/good/ace3_config
-        mv ace3_config common/arch/arm64/configs/gki_defconfig
+        wget https://github.com/fish4terrisa-MSDSM/Kernel-Builder_Action_ace3_edited/raw/good/patches/last_defconfig
+        mv last_defconfig common/arch/arm64/configs/gki_defconfig
     - name: Download source boot image
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
