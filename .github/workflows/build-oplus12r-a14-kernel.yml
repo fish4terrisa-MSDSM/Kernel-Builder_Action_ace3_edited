@@ -28,7 +28,7 @@ jobs:
         git clone https://github.com/fish4terrisa-MSDSM/android_kernel_modules_and_devicetree_oneplus_sm8550 -b oneplus/sm8550_u_14.0.0_ace3 kernel_workspace --depth=1
         cd $GITHUB_WORKSPACE/kernel_workspace
         cd kernel_platform
-        git clone https://github.com/PoXiao777/android_kernel_oneplus_sm8550 common --depth=1
+        git clone https://github.com/fish4terrisa-MSDSM/android_kernel_oneplus_sm8550 common --depth=1
         wget https://github.com/fish4terrisa-MSDSM/Kernel-Builder_Action_ace3_edited/raw/good/patches/last_defconfig
         mv last_defconfig common/arch/arm64/configs/gki_defconfig
     - name: Download source boot image
