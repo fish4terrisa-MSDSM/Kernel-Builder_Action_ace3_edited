@@ -22,10 +22,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install git dwarves libelf-dev ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler python2 python3
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      with:
-        detached: true
       
     - name: Download kernel source
       run: |
@@ -80,11 +76,11 @@ jobs:
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}" INSTALL_MOD_PATH="." INSTALL_MOD_STRIP=1 modules_install
 
         builddir="$GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build"
-        cd ${KERNEL_DIR}
+        cd $GITHUB_WORKSPACE/kernel_workspace/${KERNEL_DIR}
         install -Dt "$builddir" -m644 Makefile
         cd $GITHUB_WORKSPACE/kernel_workspace/out/
         install -Dt "$builddir" -m644 .config Module.symvers System.map vmlinux.symvers .version vmlinux
-        cd ${KERNEL_DIR}
+        cd $GITHUB_WORKSPACE/kernel_workspace/${KERNEL_DIR}
         install -Dt "$builddir/kernel" -m644 kernel/Makefile
         install -Dt "$builddir/arch/arm64" -m644 arch/arm64/Makefile
         cp -t "$builddir" -a scripts
