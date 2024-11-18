@@ -24,6 +24,8 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
+      with:
+        detached: true
       
     - name: Download kernel source
       run: |
