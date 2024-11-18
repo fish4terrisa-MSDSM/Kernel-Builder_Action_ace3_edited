@@ -80,7 +80,11 @@ jobs:
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}" INSTALL_MOD_PATH="." INSTALL_MOD_STRIP=1 modules_install
 
         builddir="$GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build"
-        install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map localversion.* version vmlinux
+        cd ${KERNEL_DIR}
+        install -Dt "$builddir" -m644 Makefile
+        cd $GITHUB_WORKSPACE/kernel_workspace/out/
+        install -Dt "$builddir" -m644 .config Module.symvers System.map vmlinux.symvers .version vmlinux
+        cd ${KERNEL_DIR}
         install -Dt "$builddir/kernel" -m644 kernel/Makefile
         install -Dt "$builddir/arch/arm64" -m644 arch/arm64/Makefile
         cp -t "$builddir" -a scripts
@@ -109,7 +113,7 @@ jobs:
 
 
         #rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build
-        #rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/source
+        rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/source
     - name: Make Anykernel3
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
