@@ -74,9 +74,38 @@ jobs:
         THREAD=$(($(nproc --all) - 1))
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}"
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}" INSTALL_MOD_PATH="." INSTALL_MOD_STRIP=1 modules_install
-        
-        rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build
-        rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/source
+
+        builddir="$GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build"
+        install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map localversion.* version vmlinux
+        install -Dt "$builddir/kernel" -m644 kernel/Makefile
+        install -Dt "$builddir/arch/arm64" -m644 arch/arm64/Makefile
+        cp -t "$builddir" -a scripts
+        mkdir -p "$builddir"/{fs/xfs,mm}
+        cp -t "$builddir" -a include
+        cp -t "$builddir/arch/arm64" -a arch/arm64/include
+        install -Dt "$builddir/arch/arm64/kernel" -m644 arch/arm64/kernel/asm-offsets.s  
+        mkdir -p "$builddir/arch/arm"
+        cp -t "$builddir/arch/arm" -a arch/arm/include
+        install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h
+        install -Dt "$builddir/net/mac80211" -m644 net/mac80211/*.h
+        install -Dt "$builddir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
+        install -Dt "$builddir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
+        install -Dt "$builddir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
+        install -Dt "$builddir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
+        install -Dt "$builddir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
+        find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
+        for arch in "$builddir"/arch/*/; do
+          [[ $arch = */arm64/ || $arch == */arm/ ]] && continue
+          echo "Removing $(basename "$arch")"
+          rm -r "$arch"
+        done
+        rm -r "$builddir/Documentation"
+        find -L "$builddir" -type l -printf 'Removing %P\n' -delete
+        find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
+
+
+        #rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build
+        #rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/source
     - name: Make Anykernel3
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
