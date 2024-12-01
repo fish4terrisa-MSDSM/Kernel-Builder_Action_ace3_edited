@@ -79,8 +79,8 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/${KERNEL_DIR}
         install -Dt "$builddir" -m644 Makefile
         cd $GITHUB_WORKSPACE/kernel_workspace/out/
-        install -Dt "$builddir" -m644 .config Module.symvers System.map vmlinux.symvers .version vmlinux
-        cd $GITHUB_WORKSPACE/kernel_workspace/${KERNEL_DIR}
+        install -C -Dt "$builddir" -m644 .config Module.symvers System.map vmlinux.symvers .version vmlinux || true
+        cd $GITHUB_WORKSPACE/kernel_workspace/${KERNEL_DIR} 
         install -Dt "$builddir/kernel" -m644 kernel/Makefile
         install -Dt "$builddir/arch/arm64" -m644 arch/arm64/Makefile
         cp -t "$builddir" -a scripts
