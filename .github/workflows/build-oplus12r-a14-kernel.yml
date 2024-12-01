@@ -87,10 +87,10 @@ jobs:
         mkdir -p "$builddir"/{fs/xfs,mm}
         cp -t "$builddir" -a include
         cp -t "$builddir/arch/arm64" -a arch/arm64/include
-        install -Dt "$builddir/arch/arm64/kernel" -m644 arch/arm64/kernel/asm-offsets.s  
+        install -Dt "$builddir/arch/arm64/kernel" -m644 arch/arm64/kernel/asm-offsets.s || true
         mkdir -p "$builddir/arch/arm"
         cp -t "$builddir/arch/arm" -a arch/arm/include
-        install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h
+        install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h 
         install -Dt "$builddir/net/mac80211" -m644 net/mac80211/*.h
         install -Dt "$builddir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
         install -Dt "$builddir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
