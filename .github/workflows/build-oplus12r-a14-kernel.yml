@@ -104,8 +104,8 @@ jobs:
           rm -r "$arch"
         done
         rm -r "$builddir/Documentation"
-        find -L "$builddir" -type l -printf 'Removing %P\n' -delete
-        find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
+        find -L "$builddir" -type l -printf 'Removing %P\n' -delete || true
+        find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete || true
 
 
         #rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build
