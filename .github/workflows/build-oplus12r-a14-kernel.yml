@@ -80,6 +80,13 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/${KERNEL_DIR}
         install -Dt "$builddir" -m644 Makefile
         cd $GITHUB_WORKSPACE/kernel_workspace/out/
+        mkdir -p "$builddir"/{fs/xfs,mm}
+        cp -t "$builddir" -a scripts
+        cp -t "$builddir" -a include
+        cp -t "$builddir/arch/arm64" -a arch/arm64/include || true
+        mkdir -p "$builddir/arch/arm"
+        cp -t "$builddir/arch/arm" -a arch/arm/include
+        install -Dt "$builddir/arch/arm64/kernel" -m644 arch/arm64/kernel/asm-offsets.s || true
         install -C -Dt "$builddir" -m644 .config Module.symvers System.map vmlinux.symvers .version vmlinux || true
         cd $GITHUB_WORKSPACE/kernel_workspace/${KERNEL_DIR} 
         install -Dt "$builddir/kernel" -m644 kernel/Makefile
