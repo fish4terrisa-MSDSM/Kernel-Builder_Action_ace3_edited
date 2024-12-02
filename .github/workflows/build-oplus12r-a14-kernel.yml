@@ -74,8 +74,9 @@ jobs:
         THREAD=$(($(nproc --all) - 1))
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}"
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}" INSTALL_MOD_PATH="." INSTALL_MOD_STRIP=1 modules_install
-
+        rm -rf $GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build
         builddir="$GITHUB_WORKSPACE/kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/build"
+        mkdir -p "$builddir"
         cd $GITHUB_WORKSPACE/kernel_workspace/${KERNEL_DIR}
         install -Dt "$builddir" -m644 Makefile
         cd $GITHUB_WORKSPACE/kernel_workspace/out/
@@ -127,6 +128,7 @@ jobs:
       with:
         name: Kmd-${{ env.BUILD_TIME }}
         path: kernel_workspace/out/lib/modules/*
+        include-hidden-files: true
 
     - name: Upload AnyKernel3
       uses: actions/upload-artifact@v4
