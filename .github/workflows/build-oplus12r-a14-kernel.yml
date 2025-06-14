@@ -142,3 +142,9 @@ jobs:
       with:
         name: AK3-OPAce3-A14-${{ env.BUILD_TIME }}
         path: kernel_workspace/AnyKernel3/*
+
+    - name: Upload udmabuf.ko
+      uses: actions/upload-artifact@v4
+      with:
+        name: udmabuf.ko
+        path: kernel_workspace/out/lib/modules/5.15.123-Fish4terrisa-MSDSM+/kernel/drivers/dma-buf/udmabuf.ko
