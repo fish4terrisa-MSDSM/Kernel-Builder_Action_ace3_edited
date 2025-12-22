@@ -70,10 +70,7 @@ jobs:
         cd ${KERNEL_DIR}
         THREAD=14
         make -j"$THREAD" "${TOOL_ARGS[@]}" O=${OUT_DIR}  ${DEFCONFIG}
-        scripts/config -e NET_SCH_DUALPI2
-        scripts/config -e DEFAULT_DUALPI2
-        scripts/config --set-str DEFAULT_NET_SCH "dualpi2"
-        scripts/config --file ${OUT_DIR}/.config -e LTO_CLANG -d LTO_NONE -e LTO_CLANG_THIN -d LTO_CLANG_FULL -e THINLTO
+        scripts/config --file ${OUT_DIR}/.config -e DEFAULT_DUALPI2 --set-str DEFAULT_NET_SCH "dualpi2" -e NET_SCH_DUALPI2 -e LTO_CLANG -d LTO_NONE -e LTO_CLANG_THIN -d LTO_CLANG_FULL -e THINLTO
         THREAD=$(($(nproc --all) - 1))
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}"
         make -j"$THREAD" O=${OUT_DIR} "${TOOL_ARGS[@]}" INSTALL_MOD_PATH="." INSTALL_MOD_STRIP=1 modules_install
