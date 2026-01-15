@@ -29,7 +29,7 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace
         cd kernel_platform
         git clone https://github.com/fish4terrisa-MSDSM/android_kernel_oneplus_sm8550 -b roccet common --depth=1
-        wget https://github.com/fish4terrisa-MSDSM/Kernel-Builder_Action_ace3_edited/raw/roccet/patches/last_defconfig
+        wget https://github.com/fish4terrisa-MSDSM/Kernel-Builder_Action_ace3_edited/raw/roccet-48/patches/last_defconfig
         mv last_defconfig common/arch/arm64/configs/gki_defconfig
     - name: Download source boot image
       run: |
